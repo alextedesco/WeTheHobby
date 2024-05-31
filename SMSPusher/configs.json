@@ -1,0 +1,92 @@
+{
+   "discord-ids": {
+      "836270156648284181": {
+         "number": "+15551234567",
+         "name": "Drew",
+         "channels": {
+            "breaking-tech-support": {
+               "id": "1233445626172412004",
+               "type": "mentions"
+            },
+            "general": {
+               "id": "1242545589774712866",
+               "type": "none"
+            }
+         }
+      },
+      "387288458638655490": {
+         "number": "+15551234567",
+         "name": "John",
+         "channels": {
+            "breaking-tech-support": {
+               "id": "1233445626172412004",
+               "type": "mentions"
+            },
+            "general": {
+               "id": "1242545589774712866",
+               "type": "mentions"
+            }
+         }
+      },
+      "413133832368422912": {
+         "number": "+15551234567",
+         "name": "Alex",
+         "channels": {
+            "breaking-tech-support": {
+               "id": "1233445626172412004",
+               "type": "none"
+            },
+            "general": {
+               "id": "1242545589774712866",
+               "type": "mentions"
+            }
+         }
+      },
+      "403610687970213898": {
+         "number": "+15551234567",
+         "name": "Morgan",
+         "channels": {
+            "breaking-tech-support": {
+               "id": "1233445626172412004",
+               "type": "none"
+            },
+            "general": {
+               "id": "1242545589774712866",
+               "type": "none"
+            }
+         }
+      },
+      "135532418626093056": {
+         "number": "+15551234567",
+         "name": "Brendan",
+         "channels": {
+            "breaking-tech-support": {
+               "id": "1233445626172412004",
+               "type": "none"
+            },
+            "general": {
+               "id": "1242545589774712866",
+               "type": "none"
+            }
+         }
+      },
+      "345707234958770179": {
+         "number": "+15551234567",
+         "name": "Jill",
+         "channels": {
+            "breaking-tech-support": {
+               "id": "1233445626172412004",
+               "type": "none"
+            },
+            "general": {
+               "id": "1242545589774712866",
+               "type": "none"
+            }
+         }
+      }
+   },
+   "discord-roles": {
+      "dev": "1240356298458136587",
+      "dev-test-server": "1245030384945725552"
+   }
+}
