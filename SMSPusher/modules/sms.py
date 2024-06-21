@@ -53,6 +53,8 @@ class sms (commands.Cog):
                 else:
                     json_configs["discord-ids"][str (ctx.author.id)]["channels"][str(channel.name)]["type"] = str (alert_type)
                 await ctx.send (ctx.author.nick + " has been subscribed to " + str(channel.name))
+        else:
+            await ctx.send (ctx.author.nick + " does not have perms to add SMS push alerts")
 
 def send_sms (phone_number, message):
     '''
