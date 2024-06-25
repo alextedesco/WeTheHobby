@@ -64,8 +64,12 @@ def perms_check (ctx):
     for json_role in json_configs["discord-roles"].values():
         role_id = int(json_role)
 
-    if discord.utils.get(ctx.author.roles, id=role_id):
-        return True
+        if discord.utils.get(ctx.author.roles, id=role_id):
+            return True
+        else:
+            continue
+    return False
+            
 
 async def setup (client):
     await client.add_cog(miscellaneous(client))

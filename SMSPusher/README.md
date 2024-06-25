@@ -57,8 +57,6 @@
 <p>4.1 - Configuration file in located in the main directory as "configs.json" and stores info including Discord IDs, names, phone numbers, subscribed channels, and permissable roles</p>
 <p>4.2 - Regular maintenance is optimal with current implementation if new tech development employees are ever hired. To obtain Discord IDs, go to settings -> advanced and enable Developer options. Then right click on the user and click "Copy User ID". After that add to "configs.json".</p>
 <p>*UserID maintenance to be automated in V3 (Refer to additional notes)*</p>
-<p>*Manaual config changes down externally from the bot requires bot restart*</p>
-
 
 <br>
 
