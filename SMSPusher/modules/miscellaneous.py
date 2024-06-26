@@ -56,6 +56,15 @@ class miscellaneous (commands.Cog):
         
         embedVar.add_field(name="**Miscellaneous Commands:**", value="membercount — Displays how many members (employees) are in the server - [prefix]membercount \n ping — Outputs the latency of the bot - [prefix]ping \n say — Sends messages in specific channels. Only can be used by Devs - [prefix]say [#text-channel] [message] \n shutdown — Emergency command that turns off the bot. Only can be used by Devs - [prefix]shutdown", inline=False)
         await ctx.send(embed=embedVar, ephemeral=True)
+    
+    @commands.command(aliases=["prescense", "changestatus"])
+    async def status(self, ctx, status):
+        '''
+        Emergency command that turns off the bot and can only be used by members with Dev Role - [prefix]shutdown
+        '''
+        perms = perms_check (ctx)
+        if perms:
+            await self.client.change_presence(activity=discord.Activity(type=discord.ActivityType.custom, name="custom", state=status))
 
 def perms_check (ctx):
     '''

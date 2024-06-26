@@ -24,7 +24,7 @@ async def on_ready():
         await client.load_extension(cog)
     # Logs bot into Discord
     await client.tree.sync()
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="all of you!"))
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.custom, name="custom", state="AYOO"))
     print("We have logged in as {0.user}".format(client))
 
 # Runs the Bot
