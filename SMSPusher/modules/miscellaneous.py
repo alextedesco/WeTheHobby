@@ -60,7 +60,7 @@ class miscellaneous (commands.Cog):
     @commands.command(aliases=["presence", "changestatus"])
     async def status(self, ctx, status):
         '''
-        Changes the status of the bot and can only be used by members with Dev Role - [prefix]shutdown
+        Changes the status of the bot and can only be used by members with Dev Role - [prefix]status
         '''
         perms = perms_check (ctx)
         if perms:
@@ -75,8 +75,7 @@ def perms_check (ctx):
 
         if discord.utils.get(ctx.author.roles, id=role_id):
             return True
-        else:
-            continue
+
     return False
             
 
