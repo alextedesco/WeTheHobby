@@ -50,7 +50,7 @@ class miscellaneous (commands.Cog):
         Help command
         '''
         embedVar = discord.Embed(title="WeTheHobby Commands", color=0x22B14C)
-        embedVar.add_field(name="**Social Medias:**", value= "facebook - Outputs WeTheHobby Facebook - [prefix]facebook  \n fanaticslive - Outputs WeTheHobby Fanatics Live - [prefix]fanaticslive \n  instagram - Outputs WeTheHobby Instagram - [prefix]instagram \n socials - Outputs WeTheHobby Socials - [prefix]socials \n tiktok - Outputs WeTheHobby TikTok - [prefix]tiktok \n twitter - onlyfans — Outputs WeTheHobby Twitter - [prefix]twitter \n website — Outputs WeTheHobby Website - [prefix]website \n whatnot — Outputs WeTheHobby Whatnot - [prefix]whatnot \n youtube — Outputs WeTheHobby YouTube - [prefix]youtube", inline=False)
+        embedVar.add_field(name="**Social Medias:**", value= "facebook - Outputs WeTheHobby Facebook - [prefix]facebook  \n fanaticslive - Outputs WeTheHobby Fanatics Live - [prefix]fanaticslive \n  instagram - Outputs WeTheHobby Instagram - [prefix]instagram \n socials - Outputs WeTheHobby Socials - [prefix]socials \n tiktok - Outputs WeTheHobby TikTok - [prefix]tiktok \n twitter — Outputs WeTheHobby Twitter - [prefix]twitter \n website — Outputs WeTheHobby Website - [prefix]website \n whatnot — Outputs WeTheHobby Whatnot - [prefix]whatnot \n youtube — Outputs WeTheHobby YouTube - [prefix]youtube", inline=False)
         
         embedVar.add_field(name="**SMS:**", value= 'subscribe — Adds text channel to the SMS database for that user. Only can be used by Devs - [prefix]subscribe [#text-channel] [alert_type ("all" or "mentions")]', inline=False)
         

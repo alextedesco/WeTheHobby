@@ -66,6 +66,10 @@ class sms (commands.Cog):
         else:
             await ctx.send (ctx.author.nick + " does not have perms to add SMS push alerts")
 
+def get_file_extension(url):
+    _, ext = os.path.splitext(url)
+    return ext.split("?")[0].lower()
+
 def send_sms (phone_number, message, attachment=None):
     '''
     Uses the Twilio API to send the SMS message
@@ -79,7 +83,8 @@ def send_sms (phone_number, message, attachment=None):
     }
 
     if attachment:
-        sms_params['media_url'] = [attachment]
+        if (get_file_extension(attachment) in [".jpg", ".jpeg", "png", ".gif"]):
+            sms_params['media_url'] = [attachment]
 
     message = sms_client.messages.create(**sms_params)
     print(message.sid)

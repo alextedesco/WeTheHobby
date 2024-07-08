@@ -13,8 +13,8 @@
 <p>1.1 - Go to <a>https://discord.com/developers/applications</a> and click "new application" in the top right. </p>
 <p>1.2 - Enter the application name and assign it to the Top Shelf Enterprises team </p>
 <p>1.3 -  In the application settings go to "Bot" in the left Nav and add a profile picture, profile banner, and username (if desired)</p>
-<p>1.4 - In the application settings go to "OAuth2" in the left Nav and in the OAuth2 URL generator, click the "bot" option. Scroll down and copy the link, this is how you will invite the bot to a Discord server</p> 
-<p>1.5 - In the copied link replace the value in "permissions=0" with "permission=563364418145344". This value is the minimum required permissions the bot needs to execute its functions</p>
+<p>1.4 - In the application settings go to "OAuth2" in the left Nav and in the OAuth2 URL generator, click the "bot" and "application.commands" options. Scroll down and copy the link, this is how you will invite the bot to a Discord server</p> 
+<p>1.5 - In the copied link replace the value in "permissions=0" with "permission=563244695678016". This value is the minimum required permissions the bot needs to execute its functions</p>
 <p>1.6 - In the application settings go to "Bot" in the left Nav and click the "Reset Token" box. Enter your two-factor authentication code (if turned on). Click copy and make note of this token as it can only be viewed once</p>
 
 <br>
