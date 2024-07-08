@@ -83,7 +83,7 @@ def send_sms (phone_number, message, attachment=None):
     }
 
     if attachment:
-        if (get_file_extension(attachment) in [".jpg", ".jpeg", "png", ".gif"]):
+        if (get_file_extension(attachment) in [".jpg", ".jpeg", ".png", ".gif"]):
             sms_params['media_url'] = [attachment]
 
     message = sms_client.messages.create(**sms_params)
