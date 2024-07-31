@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import os
 import json
+import requests
 from twilio.rest import Client
 from modules.miscellaneous import perms_check
 from typing import Literal
@@ -84,6 +85,16 @@ def send_sms (phone_number, message, attachment=None):
     '''
     Uses the Twilio API to send the SMS message
     '''
+    if attachment and (get_file_extension(attachment) in [".jpg", ".jpeg", ".png", ".gif"]):  
+        response = requests.head(attachment)  
+        content_length = int(response.headers.get('Content-Length', 0))  
+        max_size_limit = 5 * 1024 * 1024  
+
+        if content_length < max_size_limit:  
+            sms_params['media_url'] = [attachment]
+        else:
+            message = "[Image Too Big] - " + message 
+
     ellipsis = "..." if len(message) > 153 else ""
 
     sms_params = {
@@ -91,10 +102,6 @@ def send_sms (phone_number, message, attachment=None):
         'from_': '+15855656027',
         'to': phone_number
     }
-
-    if attachment:
-        if (get_file_extension(attachment) in [".jpg", ".jpeg", ".png", ".gif"]):
-            sms_params['media_url'] = [attachment]
 
     message = sms_client.messages.create(**sms_params)
     print(message.sid)
