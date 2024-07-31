@@ -21,33 +21,43 @@ class sms (commands.Cog):
     # Listens to messages sent in server
     async def on_message (self, message: discord.Message):
         current_channel_id = str(message.channel.id)
-    
+
+        if message.author.nick:  
+            nickname = message.author.nick  
+        else:  
+            nickname = message.author.name
+
         for user_id in json_configs["discord-ids"]:
             channels = json_configs["discord-ids"][user_id]["channels"]
             phone_number = json_configs["discord-ids"][user_id]["number"]
             for channel in channels.values():
                 channel_id = str(channel["id"])
                 if channel_id == current_channel_id:
+                    formatted_message = nickname + " - " + message.clean_content
                     # Kinda DRY code block. Solve in future commit ??
                     if str(channel["type"]) == "all":
                         if message.attachments:
                             attachment = message.attachments[0].url
-                            send_sms(phone_number, message.clean_content, attachment)
+                            send_sms(phone_number, formatted_message, attachment)
                         else:
-                            send_sms (phone_number, message.clean_content)
+                            send_sms (phone_number, formatted_message)
                     if str(channel["type"]) == "mentions":
                         for user_mention in message.mentions:
                             if str(user_mention.id) ==  str(user_id):
                                 if message.attachments:
                                     attachment = message.attachments[0].url 
-                                    send_sms(phone_number, message.clean_content, attachment)
+                                    send_sms(phone_number, formatted_message, attachment)
                                 else:
-                                    send_sms(phone_number, message.clean_content)
+                                    send_sms(phone_number, formatted_message)
 
     @commands.hybrid_command(name="subscribe", with_app_command=True, description="Used by TSE Dev team to add text-channels to database for tech-support alerts", aliases=["alert"])
     
     async def subscribe(self, ctx, channel: discord.TextChannel = None, *, alert_type: Literal['all', 'mentions']): 
         perms = perms_check (ctx)
+        if ctx.author.nick:  
+            nickname = ctx.author.nick  
+        else:  
+            nickname = ctx.author.name
         if perms:
             if str (ctx.author.id) not in json_configs["discord-ids"].keys():
                 await ctx.send ("UserID not in database; subscribe rejected!")
@@ -62,9 +72,9 @@ class sms (commands.Cog):
                         json.dump (json_configs, f, indent=3, sort_keys=False)
                 else:
                     json_configs["discord-ids"][str (ctx.author.id)]["channels"][str(channel.name)]["type"] = str (alert_type)
-                await ctx.send (ctx.author.nick + " has been subscribed to " + str(channel.name))
+                await ctx.send (nickname + " has been subscribed to " + str(channel.name))
         else:
-            await ctx.send (ctx.author.nick + " does not have perms to add SMS push alerts")
+            await ctx.send (nickname + " does not have perms to add SMS push alerts")
 
 def get_file_extension(url):
     _, ext = os.path.splitext(url)
