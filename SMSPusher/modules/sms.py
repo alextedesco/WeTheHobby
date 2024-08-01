@@ -25,7 +25,9 @@ class sms (commands.Cog):
 
         if message.author.nick:  
             nickname = message.author.nick  
-        else:  
+        elif message.author.display_name:  
+            nickname = message.author.display_name
+        else:
             nickname = message.author.name
 
         for user_id in json_configs["discord-ids"]:
@@ -57,7 +59,9 @@ class sms (commands.Cog):
         perms = perms_check (ctx)
         if ctx.author.nick:  
             nickname = ctx.author.nick  
-        else:  
+        elif ctx.author.display_name:  
+            nickname = ctx.author.display_name
+        else:
             nickname = ctx.author.name
         if perms:
             if str (ctx.author.id) not in json_configs["discord-ids"].keys():
