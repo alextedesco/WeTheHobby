@@ -61,6 +61,13 @@ class socials (commands.Cog):
         '''
         await ctx.send("https://get.fanatics.live/X8WW/qoqkiwc3", ephemeral=True)  
 
+    @commands.hybrid_command(name="discord", with_app_command=True, description="Output WeTheHobby Discord")
+    async def discord(self, ctx): 
+        '''
+        Outputs WeTheHobby Discord - [prefix]discord 
+        '''
+        await ctx.send("https://discord.gg/wethehobby")  
+
     @commands.hybrid_command(name="socials", with_app_command=True, description="Output WeTheHobby Social Medias", aliases=["socialmedias", "socialmedia"])
     async def socials(self, ctx):
         '''
@@ -71,7 +78,7 @@ class socials (commands.Cog):
         embedVar.add_field(name="Twitter", value="https://x.com/WeTheHobby", inline=False)
         embedVar.add_field(name="Facebook", value="https://www.facebook.com/wethehobby/", inline=False)
         embedVar.add_field(name="YouTube", value="https://www.youtube.com/@wethehobby", inline=False)
-        embedVar.add_field(name="Discord", value="https://www.tiktok.com/@wethehobby", inline=False)
+        embedVar.add_field(name="Discord", value="https://discord.gg/wethehobby", inline=False)
         embedVar.add_field(name="TikTok", value="https://www.tiktok.com/@wethehobby", inline=False)
         embedVar.add_field(name="Whatnot", value="https://www.whatnot.com/user/wethehobby", inline=False)
         embedVar.add_field(name="Fanatics Live", value="https://get.fanatics.live/X8WW/qoqkiwc3", inline=False)
