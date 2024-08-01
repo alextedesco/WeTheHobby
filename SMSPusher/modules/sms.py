@@ -85,10 +85,15 @@ def send_sms (phone_number, message, attachment=None):
     '''
     Uses the Twilio API to send the SMS message
     '''
+    sms_params = {}
+
     if attachment and (get_file_extension(attachment) in [".jpg", ".jpeg", ".png", ".gif"]):  
         response = requests.head(attachment)  
         content_length = int(response.headers.get('Content-Length', 0))  
         max_size_limit = 5 * 1024 * 1024  
+
+        print (content_length)
+        print (max_size_limit)
 
         if content_length < max_size_limit:  
             sms_params['media_url'] = [attachment]
@@ -97,11 +102,9 @@ def send_sms (phone_number, message, attachment=None):
 
     ellipsis = "..." if len(message) > 153 else ""
 
-    sms_params = {
-        'body': message[:150] + ellipsis,
-        'from_': '+15855656027',
-        'to': phone_number
-    }
+    sms_params["body"] = message[:150] + ellipsis
+    sms_params["from_"] = "+15855656027"
+    sms_params["to"] = str(phone_number)
 
     message = sms_client.messages.create(**sms_params)
     print(message.sid)
