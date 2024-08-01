@@ -87,18 +87,18 @@ def send_sms (phone_number, message, attachment=None):
     '''
     sms_params = {}
 
-    if attachment and (get_file_extension(attachment) in [".jpg", ".jpeg", ".png", ".gif"]):  
-        response = requests.head(attachment)  
-        content_length = int(response.headers.get('Content-Length', 0))  
-        max_size_limit = 5 * 1024 * 1024  
+    if attachment:
+        if get_file_extension(attachment) in [".jpg", ".jpeg", ".png", ".gif"]:  
+            response = requests.head(attachment)  
+            content_length = int(response.headers.get('Content-Length', 0))  
+            max_size_limit = 5 * 1024 * 1024  
 
-        print (content_length)
-        print (max_size_limit)
-
-        if content_length < max_size_limit:  
-            sms_params['media_url'] = [attachment]
+            if content_length < max_size_limit:  
+                sms_params['media_url'] = [attachment]
+            else:
+                message = "[Image Too Big] - " + message 
         else:
-            message = "[Image Too Big] - " + message 
+            message = "[Invalid Image Type] - " + message
 
     ellipsis = "..." if len(message) > 153 else ""
 
