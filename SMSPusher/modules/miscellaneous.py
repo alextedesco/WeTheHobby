@@ -9,6 +9,16 @@ class miscellaneous (commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    @commands.Cog.listener()
+    # Listens for command errors
+    async def on_command_error(self, ctx, error):
+        # Check if the error is CommandNotFound
+        if isinstance(error, commands.CommandNotFound):
+            if ctx.message.content.split()[0][1:] == "channels":  # Channels command is in the discord.js code
+                return
+            else: 
+                print (error)
+
     @commands.command(aliases=["employeecount"])
     async def membercount(self, ctx):
         '''

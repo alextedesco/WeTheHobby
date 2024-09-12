@@ -37,7 +37,6 @@ class sms (commands.Cog):
                 channel_id = str(channel["id"])
                 if channel_id == current_channel_id:
                     formatted_message = nickname + " - " + message.clean_content
-                    # Kinda DRY code block. Solve in future commit ??
                     if str(channel["type"]) == "all":
                         if message.attachments:
                             attachment = message.attachments[0].url
@@ -107,7 +106,7 @@ def send_sms (phone_number, message, attachment=None):
     ellipsis = "..." if len(message) > 153 else ""
 
     sms_params["body"] = message[:150] + ellipsis
-    sms_params["from_"] = "+15855656027"
+    sms_params["from_"] = os.getenv("twilio_number")
     sms_params["to"] = str(phone_number)
 
     message = sms_client.messages.create(**sms_params)
