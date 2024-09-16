@@ -111,5 +111,80 @@
       "dev": "1240356298458136587",
       "dev-test-server": "1245030384945725552",
       "it": "1266428606435950685"
+   },
+   "door-message-responses": {
+      "message1": {
+         "message": "Wrong channel, this is <#1284185064413991064>",
+         "image": "./assets/yoda.png"
+      },
+      "message2": {
+         "message": "I am once again asking you to use the right channel <#1284185064413991064>",
+         "image": "./assets/bernie.png"
+      },
+      "message3": {
+         "message": "Everyone wanted to know what I'd do if everyone used <#1284185064413991064>, I guess we'll never know",
+         "image": "./assets/kanye.jpg"
+      },
+      "message4": {
+         "message": "KEEP YOUR DOOR REQUEST OUT MY GENERAL CHAT <#1284185064413991064>",
+         "image": "./assets/willsmith.png"
+      },
+      "message5": {
+         "message": "If I had a nickel for every time this channel was used for door requests, I'd have... too many nickels. Use this: <#1284185064413991064>",
+         "image": "./assets/nickel.jpg"
+      },
+      "message6": {
+         "message": "Plot twist: This isn't the door request channel! Here's where the magic happens: <#1284185064413991064>"
+      },
+      "message7": {
+         "message": "Imagine if doors could be opened here... Oh wait, they can't. Use this: <#1284185064413991064>"
+      },
+      "message8": {
+         "message": "Oops, someone made a wrong turn! Here's your exit: <#1284185064413991064>"
+      },
+      "message9": {
+         "message": "Pssst... you're in the wrong place. Let me help you out: <#1284185064413991064>"
+      },
+      "message10": {
+         "message": "Ah, this isn't the door request channel, but since you asked so nicely: <#1284185064413991064>"
+      },
+      "message11": {
+         "message": "If only someone had created a specific place for door requests... Oh wait, here it is: <#1284185064413991064>"
+      },
+      "message12": {
+         "message": "For the love of everything holy, use the correct channel next time: <#1284185064413991064>"
+      },
+      "message13": {
+         "message": "Did you just... request the door here? Bold move. Here's the real link: <#1284185064413991064>"
+      },
+      "message14": {
+         "message": "I'd open the door for you, but you asked in the wrong place. Try this instead: <#1284185064413991064>"
+      },
+      "message15": {
+         "message": "Seriously? You're still asking in the wrong place? Here's the link, again: <#1284185064413991064>"
+      },
+      "message16": {
+         "message": "Imagine if there were a correct place to ask. Oh, right! Here: <#1284185064413991064>"
+      },
+      "message17": {
+         "message": "Oh, brilliant. Yet another door request in the wrong channel. Here's where it actually belongs: <#1284185064413991064>"
+      },
+      "message18": {
+         "message": "Wow, wrong again. How shocking. Here's the correct link: <#1284185064413991064>"
+      },
+      "message19": {
+         "message": "Do you even read? This isn't the door request channel. This is: <#1284185064413991064>"
+      },
+      "message20": {
+         "message": "I ran out of phrases... use this <#1284185064413991064> I guess? Idk I'm not your dad"
+      },
+      "message21": {
+         "message": "This you? <#1284185064413991064>",
+         "image": "./assets/theoffice.png"
+      },
+      "message22": {
+         "message": "<#1284185064413991064>",
+         "image": "./assets/guylookingmeme.jpg"
+      }
    }
 }

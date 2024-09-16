@@ -6,7 +6,7 @@ import discord
 from discord.ext import commands
 import os
 
-cogs = ['modules.socials', 'modules.sms','modules.miscellaneous']
+cogs = ['modules.socials', 'modules.sms','modules.miscellaneous', 'modules.door']
 
 intents = discord.Intents.default()
 intents.message_content = True
