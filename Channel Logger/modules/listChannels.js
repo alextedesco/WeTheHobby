@@ -40,7 +40,7 @@ async function handleChannelListCommand(message) {
             .setTitle("Category/Channel List")  
             .setDescription(description.trim())
             .setTimestamp()  
-            .setColor("Random")   
+            .setColor("#2dbb17")   
             .setFooter({ text: "AYOO" });  
 
         await message.channel.send({ embeds: [channelembed] });   

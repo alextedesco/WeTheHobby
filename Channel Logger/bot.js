@@ -3,7 +3,7 @@ const Discord = require('discord.js'); // Imports discord.js
 const setupChannelUpdateHandler = require('./modules/movedChannel.js'); 
 const handleChannelListCommand = require('./modules/listChannels.js');   
 
-// Create a new client instance with the required intents  
+// Creates a new client instance with the required intents  
 const client = new Discord.Client({  
     intents: [  
         Discord.GatewayIntentBits.Guilds,  
@@ -15,17 +15,16 @@ const client = new Discord.Client({
     ]  
 });  
 
-// Log in to the bot and confirm readiness  
 client.on('ready', () => {  
     console.log(`Logged in as ${client.user.tag}!`);  
 });  
 
 setupChannelUpdateHandler(client);  
 
-// Handle message creation  
+// Handles message creation  
 client.on("messageCreate", async (message) => {  
   await handleChannelListCommand(message); // Call the function to handle the channel list command  
 }); 
 
-// Log in to the bot with the token  
+// Logs into the bot
 client.login(process.env.wth_discord_token); 
