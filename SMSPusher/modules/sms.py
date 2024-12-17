@@ -30,6 +30,8 @@ class sms (commands.Cog):
         else:
             nickname = message.author.name
 
+        sent_users = set()
+
         for user_id in json_configs["discord-ids"]:
             channels = json_configs["discord-ids"][user_id]["channels"]
             phone_number = json_configs["discord-ids"][user_id]["number"]
@@ -41,18 +43,36 @@ class sms (commands.Cog):
                         if message.attachments:
                             attachment = message.attachments[0].url
                             send_sms(phone_number, formatted_message, attachment)
+                            sent_users.add(user_id)
                         else:
                             send_sms (phone_number, formatted_message)
+                            sent_users.add(user_id)
                     if str(channel["type"]) == "mentions":
                         for user_mention in message.mentions:
                             if str(user_mention.id) ==  str(user_id):
                                 if message.attachments:
                                     attachment = message.attachments[0].url 
                                     send_sms(phone_number, formatted_message, attachment)
+                                    sent_users.add(user_id)
                                 else:
-                                    send_sms(phone_number, formatted_message)
+                                    send_sms(phone_number, formatted_message) 
+                                    sent_users.add(user_id)
 
-    @commands.hybrid_command(name="subscribe", with_app_command=True, description="Used by TSE Dev team to add text-channels to database for tech-support alerts", aliases=["alert"])
+        help_role = message.guild.get_role(1318236375128084590)
+        members = help_role.members
+
+        for member in members:
+            if member.id not in sent_users:
+                # Check if this variable exists
+                phone_number = json_configs["discord-ids"][str(member.id)]["number"]
+                if phone_number:
+                    formatted_message = nickname + " - " + message.clean_content
+                    send_sms(phone_number, formatted_message) 
+
+        # Reset the set
+        sent_users.clear()
+
+    @commands.hybrid_command(name="subscribe", with_app_command=True, description="Used by TSE Dev/IT team to add text-channels to database for tech-support alerts", aliases=["alert"])
     
     async def subscribe(self, ctx, channel: discord.TextChannel = None, *, alert_type: Literal['all', 'mentions']): 
         perms = perms_check (ctx)
@@ -80,7 +100,9 @@ class sms (commands.Cog):
         else:
             await ctx.send (nickname + " does not have perms to add SMS push alerts")
             
-    async def add_help (self, ctx):
+    @commands.hybrid_command(name="help_role", with_app_command=True, description="Used by TSE IT team to add and remove the help role for tech support")
+
+    async def help_role (self, ctx):
         perms = perms_check (ctx)
         if ctx.author.nick:
             nickname = ctx.author.nick  
@@ -88,12 +110,19 @@ class sms (commands.Cog):
             nickname = ctx.author.display_name
         else:
             nickname = ctx.author.name
+
         if perms:
-            role = ctx.guild.get_role(1318230859479908503)
-            await ctx.author.add_roles(role)
-            await ctx.send(nickname + " has added the help role!", ephemeral=True) 
+            help_role = ctx.guild.get_role(1318236375128084590) 
+            if help_role in ctx.author.roles:
+                # If user already has the role, remove it
+                await ctx.author.remove_roles(help_role)
+                await ctx.send(nickname + " has removed the help role!", ephemeral=True)
+            else:
+                # If user doesn't have the role, add it
+                await ctx.author.add_roles(help_role)
+                await ctx.send(nickname + " has added the help role!", ephemeral=True)
         else:
-            await ctx.send("You do not have perms to use this command!", ephemeral=True) 
+            await ctx.send("You do not have perms to use this command!", ephemeral=True)
 
 def get_file_extension(url):
     _, ext = os.path.splitext(url)
