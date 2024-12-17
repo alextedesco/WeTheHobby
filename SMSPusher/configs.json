@@ -105,6 +105,16 @@
                "type": "none"
             }
          }
+      },
+      "666043412671102987": {
+         "number": "+16318719016",
+         "name": "Al",
+         "channels": {
+            "breaking-tech-support": {
+               "id": "1233445626172412004",
+               "type": "none"
+            }
+         }
       }
    },
    "discord-roles": {
