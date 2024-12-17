@@ -58,8 +58,11 @@ class sms (commands.Cog):
                                     send_sms(phone_number, formatted_message) 
                                     sent_users.add(user_id)
 
-        help_role = message.guild.get_role(1318236375128084590)
-        members = help_role.members
+        HELP_ROLE_ID = 1318236375128084590
+        if any(role.id == HELP_ROLE_ID for role in message.role_mentions):
+            help_role = message.guild.get_role(HELP_ROLE_ID)
+            if help_role:
+                members = help_role.members
 
         for member in members:
             if member.id not in sent_users:
@@ -69,7 +72,7 @@ class sms (commands.Cog):
                     formatted_message = nickname + " - " + message.clean_content
                     send_sms(phone_number, formatted_message) 
 
-        # Reset the set
+        # Reset the set 
         sent_users.clear()
 
     @commands.hybrid_command(name="subscribe", with_app_command=True, description="Used by TSE Dev/IT team to add text-channels to database for tech-support alerts", aliases=["alert"])
