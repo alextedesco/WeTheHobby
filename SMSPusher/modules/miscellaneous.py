@@ -34,6 +34,45 @@ class miscellaneous (commands.Cog):
         if perms:
             await channel.send(message)
 
+    @commands.hybrid_command(name="poll", with_app_command=True, description="Creates a poll in a specific channel - [prefix]poll #[channel] [input_text]")
+
+    async def poll(self, ctx, channel: discord.TextChannel = None, *, input_text: str):
+        '''
+        Creates a poll in a specific channel - [prefix]poll #[channel] Title, option1, option2, ...
+        '''
+        perms = perms_check(ctx)
+        if not perms:
+            await ctx.send("You do not have permission to use this command.")
+            return
+
+        if not channel:
+            await ctx.send("Please specify a channel to send the poll.")
+            return
+
+        # Split the input text by commas
+        parts = [part.strip() for part in input_text.split(",")]
+
+        if len(parts) < 2:
+            await ctx.send("A poll must have at least a title and one option.")
+            return
+
+        title = parts[0]
+        options = parts[1:]
+
+        if len(options) > 10:
+            await ctx.send("A poll can have at most 10 options.")
+            return
+        
+        emoji_numbers = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟']
+        description = "\n".join(f"{emoji_numbers[i]} {option}" for i, option in enumerate(options))
+        embed = discord.Embed(title=title, description=description, color=0x22B14C)
+        await ctx.send("Poll created!", ephemeral=True)
+        poll_message = await channel.send(embed=embed)
+
+        # Add reactions for voting
+        for i in range(len(options)):
+            await poll_message.add_reaction(emoji_numbers[i])
+
     @commands.command()
     async def shutdown(self, ctx):
         '''

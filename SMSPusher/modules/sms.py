@@ -23,7 +23,7 @@ class sms (commands.Cog):
     async def on_message (self, message: discord.Message):
         current_channel_id = str(message.channel.id)
 
-        if message.author.nick:  
+        if message.author.nick:
             nickname = message.author.nick  
         elif message.author.display_name:  
             nickname = message.author.display_name
@@ -58,21 +58,20 @@ class sms (commands.Cog):
                                     send_sms(phone_number, formatted_message) 
                                     sent_users.add(user_id)
 
-        HELP_ROLE_ID = 1318236375128084590
-        if any(role.id == HELP_ROLE_ID for role in message.role_mentions):
-            help_role = message.guild.get_role(HELP_ROLE_ID)
+        if any(role.id == int(json_configs["discord-roles"]["help"]) for role in message.role_mentions):
+            help_role = message.guild.get_role(int(json_configs["discord-roles"]["help"]))
             if help_role:
                 members = help_role.members
 
-        for member in members:
-            if member.id not in sent_users:
-                # Check if this variable exists
-                phone_number = json_configs["discord-ids"][str(member.id)]["number"]
-                if phone_number:
-                    formatted_message = nickname + " - " + message.clean_content
-                    send_sms(phone_number, formatted_message) 
+                for member in members:
+                    if member.id not in sent_users:
+                        # Check if this variable exists
+                        phone_number = json_configs["discord-ids"][str(member.id)]["number"]
+                        if phone_number:
+                            formatted_message = nickname + " - " + message.clean_content
+                            send_sms(phone_number, formatted_message) 
 
-        # Reset the set 
+        # Reset the set
         sent_users.clear()
 
     @commands.hybrid_command(name="subscribe", with_app_command=True, description="Used by TSE Dev/IT team to add text-channels to database for tech-support alerts", aliases=["alert"])
@@ -115,7 +114,7 @@ class sms (commands.Cog):
             nickname = ctx.author.name
 
         if perms:
-            help_role = ctx.guild.get_role(1318236375128084590) 
+            help_role = ctx.guild.get_role(int(json_configs["discord-roles"]["help"])) 
             if help_role in ctx.author.roles:
                 # If user already has the role, remove it
                 await ctx.author.remove_roles(help_role)
