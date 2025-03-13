@@ -67,7 +67,9 @@ class sms (commands.Cog):
                         if phone_number:
                             formatted_message = nickname + " - " + message.clean_content
                             send_sms(phone_number, formatted_message) 
-                await message.channel.send(help_msg[:-2] + " have been alerted. Help is on the way!")
+
+                phrase = "have been" if len(members) > 1 else "has been"
+                await message.channel.send(help_msg[:-2] + phrase + " alerted via text message. Help is on the way!")
 
         # Reset the set
         sent_users.clear()
