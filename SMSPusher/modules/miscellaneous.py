@@ -116,7 +116,18 @@ def perms_check (ctx):
             return True
 
     return False
-            
+
+def get_name(user):
+    # if ctx or message
+    if hasattr(user, "author"):
+        user = user.author
+
+    if user.nick:
+        return user.nick
+    elif user.display_name:
+        return user.display_name
+    else:
+        return user.name
 
 async def setup (client):
     await client.add_cog(miscellaneous(client))

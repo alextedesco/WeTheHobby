@@ -5,6 +5,7 @@ import json
 import requests
 from twilio.rest import Client
 from modules.miscellaneous import perms_check
+from modules.miscellaneous import get_name
 from typing import Literal
 
 account_sid = os.environ['TWILIO_ACCOUNT_SID'] # Add an environment variable to local system
@@ -23,13 +24,8 @@ class sms (commands.Cog):
     async def on_message (self, message: discord.Message):
         current_channel_id = str(message.channel.id)
 
-        if message.author.nick:
-            nickname = message.author.nick  
-        elif message.author.display_name:  
-            nickname = message.author.display_name
-        else:
-            nickname = message.author.name
-
+        nickname = get_name(message)
+        
         sent_users = set()
 
         for user_id in json_configs["discord-ids"]:
@@ -57,33 +53,30 @@ class sms (commands.Cog):
                                 else:
                                     send_sms(phone_number, formatted_message) 
                                     sent_users.add(user_id)
-
+                                    
         if any(role.id == int(json_configs["discord-roles"]["help"]) for role in message.role_mentions):
             help_role = message.guild.get_role(int(json_configs["discord-roles"]["help"]))
             if help_role:
+                help_msg = ""
                 members = help_role.members
 
                 for member in members:
-                    if member.id not in sent_users:
-                        # Check if this variable exists
+                    help_msg += get_name(member) + ", "
+                    if str(member.id) not in sent_users:
                         phone_number = json_configs["discord-ids"][str(member.id)]["number"]
                         if phone_number:
                             formatted_message = nickname + " - " + message.clean_content
                             send_sms(phone_number, formatted_message) 
+                await message.channel.send(help_msg[:-2] + " have been alerted. Help is on the way!")
 
         # Reset the set
         sent_users.clear()
 
     @commands.hybrid_command(name="subscribe", with_app_command=True, description="Used by TSE Dev/IT team to add text-channels to database for tech-support alerts", aliases=["alert"])
     
-    async def subscribe(self, ctx, channel: discord.TextChannel = None, *, alert_type: Literal['all', 'mentions']): 
+    async def subscribe(self, ctx, channel: discord.TextChannel = None, *, alert_type: Literal['all', 'mentions', "none"]): 
         perms = perms_check (ctx)
-        if ctx.author.nick:  
-            nickname = ctx.author.nick  
-        elif ctx.author.display_name:  
-            nickname = ctx.author.display_name
-        else:
-            nickname = ctx.author.name
+        nickname = get_name(ctx)
         if perms:
             if str (ctx.author.id) not in json_configs["discord-ids"].keys():
                 await ctx.send ("UserID not in database; subscribe rejected!")
@@ -98,7 +91,11 @@ class sms (commands.Cog):
                         json.dump (json_configs, f, indent=3, sort_keys=False)
                 else:
                     json_configs["discord-ids"][str (ctx.author.id)]["channels"][str(channel.name)]["type"] = str (alert_type)
-                await ctx.send (nickname + " has been subscribed to " + str(channel.name))
+
+                if alert_type == "none":
+                    await ctx.send(nickname + " has been unsubscribed from " + str(channel.name))
+                else:
+                    await ctx.send(nickname + " has been subscribed to " + str(channel.name))
         else:
             await ctx.send (nickname + " does not have perms to add SMS push alerts")
             
@@ -106,12 +103,7 @@ class sms (commands.Cog):
 
     async def help_role (self, ctx):
         perms = perms_check (ctx)
-        if ctx.author.nick:
-            nickname = ctx.author.nick  
-        elif ctx.author.display_name:  
-            nickname = ctx.author.display_name
-        else:
-            nickname = ctx.author.name
+        nickname = get_name(ctx)
 
         if perms:
             help_role = ctx.guild.get_role(int(json_configs["discord-roles"]["help"])) 
@@ -157,6 +149,6 @@ def send_sms (phone_number, message, attachment=None):
 
     message = sms_client.messages.create(**sms_params)
     print(message.sid)
-   
+
 async def setup (client):
     await client.add_cog(sms(client))
