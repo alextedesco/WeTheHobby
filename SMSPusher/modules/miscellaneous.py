@@ -95,7 +95,57 @@ class miscellaneous (commands.Cog):
         
         embedVar.add_field(name="**Miscellaneous Commands:**", value="membercount — Displays how many members (employees) are in the server - [prefix]membercount \n ping — Outputs the latency of the bot - [prefix]ping \n say — Sends messages in specific channels. Only can be used by Devs - [prefix]say [#text-channel] [message] \n shutdown — Emergency command that turns off the bot. Only can be used by Devs - [prefix]shutdown", inline=False)
         await ctx.send(embed=embedVar, ephemeral=True)
-    
+
+
+    @commands.hybrid_command(name="help_role", with_app_command=True, description="Used by TSE IT team to add and remove the help role for tech support")
+    async def help_role (self, ctx):
+        perms = perms_check (ctx)
+        nickname = get_name(ctx)
+        logging_channel = ctx.guild.get_channel(int(json_configs["discord-channels"]["help-role-channel-logging"]))
+
+        if perms:
+            help_role = ctx.guild.get_role(int(json_configs["discord-roles"]["help"])) 
+            action_message = ""
+            if help_role in ctx.author.roles:
+                # If user already has the role, remove it
+                await ctx.author.remove_roles(help_role)
+                action_message = f"{nickname} has **removed** the help role!"
+            else:
+                # If user doesn't have the role, add it
+                await ctx.author.add_roles(help_role)
+                action_message = f"{nickname} has **added** the help role!"
+            await ctx.send(action_message, ephemeral=True)
+            await logging_channel.send(action_message)            
+        else:
+            await ctx.send("You do not have perms to use this command!", ephemeral=True)
+
+    @commands.hybrid_command(name="help role status", with_app_command=True, description="Output status of help role members")
+    async def help_role_status(ctx):
+        help_role = ctx.guild.get_role(int(json_configs["discord-roles"]["help"]))
+        it_role = ctx.guild.get_role(int(json_configs["discord-roles"]["it"]))
+        dev_role = ctx.guild.get_role(int(json_configs["discord-roles"]["dev"]))
+
+        embedVar = discord.Embed(title="Help Role Members", color=0x22B14C)
+        member_status = ""
+
+        dev_it_members = set(it_role.members + dev_role.members)
+
+        for member in dev_it_members:
+            if help_role in member.roles:
+                status = "Yes"
+            else:
+                status = "No"
+
+            member_status += member.display_name + " — " + status + "\n"
+
+        embedVar.add_field(
+            name="**Dev/IT Users**",
+            value=member_status,
+            inline=False
+        )
+
+        await ctx.send(embed=embedVar)
+
     @commands.command(aliases=["presence", "changestatus"])
     async def status(self, ctx, status):
         '''

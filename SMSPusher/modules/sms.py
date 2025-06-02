@@ -34,7 +34,7 @@ class sms (commands.Cog):
             for channel in channels.values():
                 channel_id = str(channel["id"])
                 if channel_id == current_channel_id:
-                    formatted_message = nickname + " - " + message.clean_content
+                    formatted_message = "#" + str(message.channel) + " - " + nickname + " - " + message.clean_content
                     if str(channel["type"]) == "all":
                         if message.attachments:
                             attachment = message.attachments[0].url
@@ -65,10 +65,10 @@ class sms (commands.Cog):
                     if str(member.id) not in sent_users:
                         phone_number = json_configs["discord-ids"][str(member.id)]["number"]
                         if phone_number:
-                            formatted_message = nickname + " - " + message.clean_content
+                            formatted_message = "#" + str(message.channel) + " - " + nickname + " - " + message.clean_content
                             send_sms(phone_number, formatted_message) 
 
-                phrase = "have been" if len(members) > 1 else "has been"
+                phrase = " have been" if len(members) > 1 else " has been"
                 await message.channel.send(help_msg[:-2] + phrase + " alerted via text message. Help is on the way!")
 
         # Reset the set
@@ -101,25 +101,6 @@ class sms (commands.Cog):
         else:
             await ctx.send (nickname + " does not have perms to add SMS push alerts")
             
-    @commands.hybrid_command(name="help_role", with_app_command=True, description="Used by TSE IT team to add and remove the help role for tech support")
-
-    async def help_role (self, ctx):
-        perms = perms_check (ctx)
-        nickname = get_name(ctx)
-
-        if perms:
-            help_role = ctx.guild.get_role(int(json_configs["discord-roles"]["help"])) 
-            if help_role in ctx.author.roles:
-                # If user already has the role, remove it
-                await ctx.author.remove_roles(help_role)
-                await ctx.send(nickname + " has removed the help role!", ephemeral=True)
-            else:
-                # If user doesn't have the role, add it
-                await ctx.author.add_roles(help_role)
-                await ctx.send(nickname + " has added the help role!", ephemeral=True)
-        else:
-            await ctx.send("You do not have perms to use this command!", ephemeral=True)
-
 def get_file_extension(url):
     _, ext = os.path.splitext(url)
     return ext.split("?")[0].lower()
