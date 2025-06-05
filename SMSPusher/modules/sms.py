@@ -39,20 +39,18 @@ class sms (commands.Cog):
                         if message.attachments:
                             attachment = message.attachments[0].url
                             send_sms(phone_number, formatted_message, attachment)
-                            sent_users.add(user_id)
                         else:
                             send_sms (phone_number, formatted_message)
-                            sent_users.add(user_id)
+                        sent_users.add(user_id)
                     if str(channel["type"]) == "mentions":
                         for user_mention in message.mentions:
                             if str(user_mention.id) ==  str(user_id):
                                 if message.attachments:
                                     attachment = message.attachments[0].url 
                                     send_sms(phone_number, formatted_message, attachment)
-                                    sent_users.add(user_id)
                                 else:
                                     send_sms(phone_number, formatted_message) 
-                                    sent_users.add(user_id)
+                                sent_users.add(user_id)
                                     
         if any(role.id == int(json_configs["discord-roles"]["help"]) for role in message.role_mentions):
             help_role = message.guild.get_role(int(json_configs["discord-roles"]["help"]))
@@ -66,8 +64,13 @@ class sms (commands.Cog):
                         phone_number = json_configs["discord-ids"][str(member.id)]["number"]
                         if phone_number:
                             formatted_message = "#" + str(message.channel) + " - " + nickname + " - " + message.clean_content
-                            send_sms(phone_number, formatted_message) 
-
+                            # This is the 3rd time this has been copied and pasted this.
+                            # Helper function this in the future
+                            if message.attachments:
+                                attachment = message.attachments[0].url 
+                                send_sms(phone_number, formatted_message, attachment)
+                            else:
+                                send_sms(phone_number, formatted_message)
                 phrase = " have been" if len(members) > 1 else " has been"
                 await message.channel.send(help_msg[:-2] + phrase + " alerted via text message. Help is on the way!")
 
