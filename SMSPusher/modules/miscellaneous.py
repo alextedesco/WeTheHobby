@@ -119,8 +119,8 @@ class miscellaneous (commands.Cog):
         else:
             await ctx.send("You do not have perms to use this command!", ephemeral=True)
 
-    @commands.hybrid_command(name="help role status", with_app_command=True, description="Output status of help role members")
-    async def help_role_status(ctx):
+    @commands.hybrid_command(name="help_role_status", with_app_command=True, description="Output status of help role members")
+    async def help_role_status(self, ctx):
         help_role = ctx.guild.get_role(int(json_configs["discord-roles"]["help"]))
         it_role = ctx.guild.get_role(int(json_configs["discord-roles"]["it"]))
         dev_role = ctx.guild.get_role(int(json_configs["discord-roles"]["dev"]))
