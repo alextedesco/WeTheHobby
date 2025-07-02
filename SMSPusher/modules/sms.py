@@ -55,6 +55,7 @@ class sms (commands.Cog):
         if any(role.id == int(json_configs["discord-roles"]["help"]) for role in message.role_mentions):
             help_role = message.guild.get_role(int(json_configs["discord-roles"]["help"]))
             if help_role:
+                confirmed = await self.confirm_help_alert(message)
                 help_msg = ""
                 members = help_role.members
 
@@ -66,13 +67,14 @@ class sms (commands.Cog):
                             formatted_message = "#" + str(message.channel) + " - " + nickname + " - " + message.clean_content
                             # This is the 3rd time this has been copied and pasted this.
                             # Helper function this in the future
-                            if message.attachments:
-                                attachment = message.attachments[0].url 
-                                send_sms(phone_number, formatted_message, attachment)
-                            else:
-                                send_sms(phone_number, formatted_message)
-                phrase = " have been" if len(members) > 1 else " has been"
-                await message.channel.send(help_msg[:-2] + phrase + " alerted via text message. Help is on the way!")
+                            if confirmed:
+                                if message.attachments:
+                                    attachment = message.attachments[0].url 
+                                    send_sms(phone_number, formatted_message, attachment)
+                                else:
+                                    send_sms(phone_number, formatted_message)
+                                phrase = " have been" if len(members) > 1 else " has been"
+                                await message.channel.send(help_msg[:-2] + phrase + " alerted via text message. Help is on the way!")
 
         # Reset the set
         sent_users.clear()
@@ -103,6 +105,27 @@ class sms (commands.Cog):
                     await ctx.send(nickname + " has been subscribed to " + str(channel.name))
         else:
             await ctx.send (nickname + " does not have perms to add SMS push alerts")
+    
+    async def confirm_help_alert(self, message: discord.Message):
+        alert_message = f"⚠️ {get_name(message)}, you used {discord.utils.escape_mentions("@help")}, which will send an emergency text alert to the IT team\n"
+        f"Please react with a 👍 within **30 seconds** to confirm this is an emergency and urgent help is needed!"
+        
+        prompt = await message.channel.send(alert_message)
+        await prompt.add_reaction("👍")
+
+        def check(reaction, user):
+            return (
+                user.id == message.author.id and
+                str(reaction.emoji) == "👍" and
+                reaction.message.id == prompt.id
+            )
+
+        try:
+            await self.client.wait_for("reaction_add", timeout=30.0, check=check)
+            return True
+        except:
+            await message.channel.send("⏱️ No confirmation received. No emergency SMS was sent.")
+            return False
             
 def get_file_extension(url):
     _, ext = os.path.splitext(url)
