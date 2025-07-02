@@ -73,8 +73,8 @@ class sms (commands.Cog):
                                     send_sms(phone_number, formatted_message, attachment)
                                 else:
                                     send_sms(phone_number, formatted_message)
-                phrase = " have been" if len(members) > 1 else " has been"
-                await message.channel.send(help_msg[:-2] + phrase + " alerted via text message. Help is on the way!")
+                    phrase = " have been" if len(members) > 1 else " has been"
+                    await message.channel.send(help_msg[:-2] + phrase + " alerted via text message. Help is on the way!")
 
         # Reset the set
         sent_users.clear()
