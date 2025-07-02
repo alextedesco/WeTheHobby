@@ -59,22 +59,22 @@ class sms (commands.Cog):
                 help_msg = ""
                 members = help_role.members
 
-                for member in members:
-                    help_msg += get_name(member) + ", "
-                    if str(member.id) not in sent_users:
-                        phone_number = json_configs["discord-ids"][str(member.id)]["number"]
-                        if phone_number:
-                            formatted_message = "#" + str(message.channel) + " - " + nickname + " - " + message.clean_content
-                            # This is the 3rd time this has been copied and pasted this.
-                            # Helper function this in the future
-                            if confirmed:
+                if confirmed:
+                    for member in members:
+                        help_msg += get_name(member) + ", "
+                        if str(member.id) not in sent_users:
+                            phone_number = json_configs["discord-ids"][str(member.id)]["number"]
+                            if phone_number:
+                                formatted_message = "#" + str(message.channel) + " - " + nickname + " - " + message.clean_content
+                                # This is the 3rd time this has been copied and pasted this.
+                                # Helper function this in the future
                                 if message.attachments:
                                     attachment = message.attachments[0].url 
                                     send_sms(phone_number, formatted_message, attachment)
                                 else:
                                     send_sms(phone_number, formatted_message)
-                                phrase = " have been" if len(members) > 1 else " has been"
-                                await message.channel.send(help_msg[:-2] + phrase + " alerted via text message. Help is on the way!")
+                phrase = " have been" if len(members) > 1 else " has been"
+                await message.channel.send(help_msg[:-2] + phrase + " alerted via text message. Help is on the way!")
 
         # Reset the set
         sent_users.clear()
@@ -107,8 +107,7 @@ class sms (commands.Cog):
             await ctx.send (nickname + " does not have perms to add SMS push alerts")
     
     async def confirm_help_alert(self, message: discord.Message):
-        alert_message = f"⚠️ {get_name(message)}, you used {discord.utils.escape_mentions("@help")}, which will send an emergency text alert to the IT team\n"
-        f"Please react with a 👍 within **30 seconds** to confirm this is an emergency and urgent help is needed!"
+        alert_message = f"{get_name(message)}, you used {discord.utils.escape_mentions('@help')}, which will send an emergency text alert to the IT team\nPlease react with a 👍 within **30 seconds** to confirm this is an emergency and urgent help is needed!"
         
         prompt = await message.channel.send(alert_message)
         await prompt.add_reaction("👍")
