@@ -107,6 +107,11 @@ class sms (commands.Cog):
             await ctx.send (nickname + " does not have perms to add SMS push alerts")
     
     async def confirm_help_alert(self, message: discord.Message):
+        help_access_roles = json_configs["help-access"]
+        if not any(role.id in help_access_roles for role in message.author.roles):
+            await message.channel.send("User does not have permissions to send.")
+            return False
+
         alert_message = f"{get_name(message)}, you used {discord.utils.escape_mentions('@help')}, which will send an emergency text alert to the IT team\nPlease react with a 👍 within **30 seconds** to confirm this is an emergency and urgent help is needed!"
         
         prompt = await message.channel.send(alert_message)
