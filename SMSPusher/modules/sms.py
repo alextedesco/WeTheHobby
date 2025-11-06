@@ -108,8 +108,12 @@ class sms (commands.Cog):
     
     async def confirm_help_alert(self, message: discord.Message):
         help_access_roles = json_configs["help-access"]
-        if not any(role.id in help_access_roles for role in message.author.roles):
-            await message.channel.send("User does not have permissions to send.")
+        allowed_role_ids = [int(v) for v in help_access_roles.values()]
+
+        if not any(role.id in allowed_role_ids for role in message.author.roles):
+            await message.channel.send(
+                f"{discord.utils.escape_mentions('@help')} is designed for show-stopping emergencies. "
+                f"Consider {discord.utils.escape_mentions('@it')} in <#1402726658435449013> if it's critical")
             return False
 
         alert_message = f"{get_name(message)}, you used {discord.utils.escape_mentions('@help')}, which will send an emergency text alert to the IT team\nPlease react with a 👍 within **30 seconds** to confirm this is an emergency and urgent help is needed!"
