@@ -55,26 +55,29 @@ class sms (commands.Cog):
         if any(role.id == int(json_configs["discord-roles"]["help"]) for role in message.role_mentions):
             help_role = message.guild.get_role(int(json_configs["discord-roles"]["help"]))
             if help_role:
-                confirmed = await self.confirm_help_alert(message)
+                # confirmed = await self.confirm_help_alert(message)
                 help_msg = ""
                 members = help_role.members
-
-                if confirmed:
-                    for member in members:
-                        help_msg += get_name(member) + ", "
-                        if str(member.id) not in sent_users:
-                            phone_number = json_configs["discord-ids"][str(member.id)]["number"]
-                            if phone_number:
-                                formatted_message = "#" + str(message.channel) + " - " + nickname + " - " + message.clean_content
-                                # This is the 3rd time this has been copied and pasted this.
-                                # Helper function this in the future
-                                if message.attachments:
-                                    attachment = message.attachments[0].url 
-                                    send_sms(phone_number, formatted_message, attachment)
-                                else:
-                                    send_sms(phone_number, formatted_message)
-                    phrase = " have been" if len(members) > 1 else " has been"
-                    await message.channel.send(help_msg[:-2] + phrase + " alerted via text message. Help is on the way!")
+                '''
+                Commented out confirmation check to see if user has permissions. Now anyone can use @help
+                To re-enabled uncomment out the confirmed variable and the if conditional below, then indent everything below one tab
+                '''
+                # if confirmed:
+                for member in members:
+                    help_msg += get_name(member) + ", "
+                    if str(member.id) not in sent_users:
+                        phone_number = json_configs["discord-ids"][str(member.id)]["number"]
+                        if phone_number:
+                            formatted_message = "#" + str(message.channel) + " - " + nickname + " - " + message.clean_content
+                            # This is the 3rd time this has been copied and pasted this.
+                            # Helper function this in the future
+                            if message.attachments:
+                                attachment = message.attachments[0].url 
+                                send_sms(phone_number, formatted_message, attachment)
+                            else:
+                                send_sms(phone_number, formatted_message)
+                phrase = " have been" if len(members) > 1 else " has been"
+                await message.channel.send(help_msg[:-2] + phrase + " alerted via text message. Help is on the way!")
 
         # Reset the set
         sent_users.clear()
